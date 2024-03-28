@@ -4,7 +4,7 @@
 ##########################################################################
 
 
-### IMPORTS ### 														# Imports nicht notwendig innerhalb qgis_python_console_editor
+### IMPORTS ### 										# Imports nicht notwendig innerhalb qgis_python_console_editor
 from qgis.core import *
 from qgis.PyQt.QtCore import QVariant
 import os
@@ -21,7 +21,7 @@ outp = "/home/yyyy/_GIS_home_ubu/Ueb_atene/_data_uebAtene/build_data/ppoi_pyqgis
 
 
 ########################################################################
-### CREATE FIELDS/SPALTEN ###									        # per QgsFields & QgsVectorFileWriter
+### CREATE FIELDS/SPALTEN ###									# per QgsFields & QgsVectorFileWriter
 
 layerFields = QgsFields()
 layerFields.append(QgsField("ID", QVariant.Int))
@@ -29,8 +29,8 @@ layerFields.append(QgsField("address", QVariant.String))
 
 
 ### WRITE FILE ###
-crs = QgsCoordinateReferenceSystem('EPSG:25833')    					# außerhalb qgis_python_console_editor: CRS zuweisen
-#crs = QgsProject.instance().crs()                  					# innerhalb qgis_python_console_editor: nutzt Projekt-CRS
+crs = QgsCoordinateReferenceSystem('EPSG:25833')    						# außerhalb qgis_python_console_editor: CRS zuweisen
+#crs = QgsProject.instance().crs()                  						# innerhalb qgis_python_console_editor: nutzt Projekt-CRS
 save_options = QgsVectorFileWriter.SaveVectorOptions()
 save_options.driverName = "ESRI Shapefile"
 save_options.fileEncoding = "UTF-8" 
@@ -45,26 +45,26 @@ if writer.hasError() != QgsVectorFileWriter.NoError:
 
 ### ADD FEATURES/GEOMETRIES/ATTRIBUTES ###
 
-features = {															# dictionary_key = ID-attribute
+features = {											# dictionary_key = ID-attribute
     1 : [395098.517923233564943, 5815344.281443133018911, 'Ederstr_24'],
     2 : [392901.898330981261097, 5815612.682892174459994, 'Weisestr_2'] 
     }
 
-keys = (*features,)            											# Tupel der Dictionary-Keys
-n = 1                          											# Zähler für TupelIndex
+keys = (*features,)            									# Tupel der Dictionary-Keys
+n = 1                          									# Zähler für TupelIndex
 for i in features:
     feat = QgsFeature()
     feat.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(features[i][0], features[i][1])))
-    n = n-1                    											# Index des keys-Tupel
+    n = n-1                    									# Index des keys-Tupel
     feat.setAttributes([keys[n], features[i][2]])
     writer.addFeature(feat)
 
-### DELETE WRITER : flush file to disk ###
 
+### DELETE WRITER : flush file to disk ###
 del(writer) 
 
 
 ########################################################################
 ### File als LAYER LADEN im QGIS-Projekt ###							# falls script im qgis_python_console_editor ausgeführt
 
-#iface.addVectorLayer(outp, '', 'ogr')
+# iface.addVectorLayer(outp, '', 'ogr')
